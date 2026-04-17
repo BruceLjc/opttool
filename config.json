@@ -1,0 +1,96 @@
+{
+  "app_name": "ssh 传输工具",
+  "hosts": [
+    {
+      "host_id": "wangguan",
+      "host_name": "网管 203",
+      "host_addr": "192.168.2.203",
+      "host_port": "22",
+      "host_ssh_username": "root",
+      "host_ssh_password": "root@123"
+    },
+    {
+      "host_id": "donghuan",
+      "host_name": "动环  151",
+      "host_addr": "192.168.5.131",
+      "host_port": "22",
+      "host_ssh_username": "root",
+      "host_ssh_password": "root@123"
+    }
+  ],
+  "tools": {
+    "download": [
+      {
+        "is_dir": false,
+        "src_dir": "/earth-station/logs/earth-station.err",
+        "target_dir": "./earth-station.err"
+      },
+      {
+        "is_dir": false,
+        "src_dir": "/earth-station/logs/server.log",
+        "target_dir": "./download/server.log"
+      },
+      {
+        "is_dir": false,
+        "src_dir": "/earth-station/logs/server.err",
+        "target_dir": "./download/server.err"
+      },
+      {
+        "is_dir": false,
+        "src_dir": "/earth-station/logs/capture.log",
+        "target_dir": "./download/capture.log"
+      },
+      {
+        "is_dir": false,
+        "src_dir": "/earth-station/logs/capture.err",
+        "target_dir": "./download/capture.err"
+      },
+      {
+        "is_dir": false,
+        "src_dir": "/earth-station/logs/logic.log",
+        "target_dir": "./download/logic.log"
+      },
+      {
+        "is_dir": false,
+        "src_dir": "/earth-station/logs/logic.err",
+        "target_dir": "./download/logic.err"
+      }
+    ],
+    "upload": [
+      {
+        "src_dir": "./upload/earth-station",
+        "target_dir": "/earth-station/server/earth-station",
+        "is_dir": false,
+        "then_run": [
+          "cd /earth-station/server",
+          "chmod +x /earth-station/server/earth-station",
+          "supervisorctl restart earth-station",
+          "tail -100 ../logs/server.log"
+        ]
+      },
+      {
+        "src_dir": "./upload/logic",
+        "target_dir": "/earth-station/logic/logic",
+        "is_dir": false,
+        "then_run": [
+          "cd /earth-station/logic",
+          "chmod +x /earth-station/logic/logic",
+          "supervisorctl restart logic",
+          "tail -100 ../logs/logic.log"
+        ]
+      },
+      {
+        "src_dir": "./upload/capture/capture",
+        "target_dir": "/earth-station/capture/capture",
+        "is_dir": false,
+        "then_run": [
+          "cd /earth-station/capture",
+          "chmod +x /earth-station/capture/capture",
+          "supervisorctl restart capture",
+          "tail -100 ../logs/capture.log"
+        ]
+      }
+    ],
+    "import_rdb_local_dir": "./download/dump.rdb"
+  }
+}

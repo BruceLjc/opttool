@@ -1,0 +1,3 @@
+module ssh-tools
+
+go 1.25.3
